@@ -8,7 +8,7 @@ class FubookingApplicationTests {
 
     @Test
     void contextLoads() {
-        System.out.println("dsf");
+        System.out.println("dsfk");
     }
 
 }
