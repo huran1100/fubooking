@@ -1,6 +1,7 @@
 package com.hz.booking.dao;
 
 import com.hz.booking.pojo.UserAccount;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserAccountMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +15,6 @@ public interface UserAccountMapper {
     int updateByPrimaryKeySelective(UserAccount record);
 
     int updateByPrimaryKey(UserAccount record);
+
+    int isInvitated(@Param("userId") Integer userId,@Param("accountId") Integer accountId);
 }

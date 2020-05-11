@@ -33,7 +33,7 @@ public class UserServieImpl implements UserService {
         return ServerResponse.createBySuccess("登陆成功", map);
     }
 
-    public ServerResponse register(String username, String password,String email,String nickname){
+    public ServerResponse register(String nickname, String username,String password,String email){
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(nickname)
                 || StringUtils.isEmpty(email)) {
             return ServerResponse.createByErrorMessage("请输入完整信息");
@@ -47,7 +47,6 @@ public class UserServieImpl implements UserService {
         user.setUsername(username);
         user.setEmail(email);
         user.setNikename(nickname);
-        //MD5Util.MD5EncodeUtf8(password)
         user.setPassword(MD5Util.MD5EncodeUtf8(password));
         int inscount = userMapper.insertSelective(user);
         if (inscount > 0){

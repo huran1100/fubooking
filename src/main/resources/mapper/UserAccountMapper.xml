@@ -8,6 +8,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+
   <sql id="Base_Column_List" >
     id, user_id, account_id, create_time, update_time
   </sql>
@@ -90,4 +91,11 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="isInvitated" resultType="integer" parameterType="map" >
+    select
+    count(1)
+    from user_account
+    where user_id = #{userId} and account_id = #{accountId}
+  </select>
 </mapper>

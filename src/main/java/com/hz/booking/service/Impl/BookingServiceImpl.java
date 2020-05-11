@@ -8,12 +8,12 @@ import com.hz.booking.dao.CategoryMapper;
 import com.hz.booking.dao.UserMapper;
 import com.hz.booking.pojo.Bill;
 import com.hz.booking.pojo.Category;
-import com.hz.booking.pojo.User;
 import com.hz.booking.service.BookingService;
 import com.hz.booking.util.DateTimeUtil;
 import com.hz.booking.vo.BillListVo;
 import com.hz.booking.vo.BillVo;
 import com.hz.booking.vo.Page;
+import com.hz.booking.vo.UserVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,6 +35,9 @@ public class BookingServiceImpl implements BookingService {
     public ServerResponse booking(String spendTime, Integer userId, Integer spendUserId,Integer accountId,
                                   Integer type, Integer cateogryId, BigDecimal money,
                                   String picture,String remark) throws ParseException {
+        if(accountId == null||accountId == 0){
+            return ServerResponse.createByErrorMessage("请添加一个账本");
+        }
         Bill bill = new Bill();
         bill.setType(type);
         bill.setCategoryId(cateogryId);
@@ -64,7 +67,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     public ServerResponse getCompanion(Integer accountId){
-        List<User> userList = userMapper.getCompanion(accountId);
+        List<UserVo> userList = userMapper.getCompanion(accountId);
         if (userList.size() >0 ) {
             return ServerResponse.createBySuccess("查询成功",userList);
         }

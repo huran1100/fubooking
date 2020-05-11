@@ -15,6 +15,8 @@ public class User {
 
     private String phone;
 
+    private String picture;
+
     private Integer currentAccountId;
 
     private Integer role;
@@ -101,5 +103,13 @@ public class User {
 
     public void setCurrentAccountId(Integer currentAccountId) {
         this.currentAccountId = currentAccountId;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

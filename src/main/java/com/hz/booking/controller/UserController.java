@@ -22,7 +22,7 @@ public class UserController {
     public ServerResponse<Map> userLogin(String username, String password, HttpSession session){
         ServerResponse<Map> response = userService.userLogin(username,password);
         if(response.isSuccess()){
-            session.setAttribute(Const.CURRENT_USER,response.getData());
+            session.setAttribute(Const.CURRENT_USER,response.getData().get("user"));
             response.getData().put(Const.TOKEN,session.getId());
         }
         return response;

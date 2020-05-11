@@ -1,16 +1,14 @@
 package com.hz.booking.controller;
 
 import com.hz.booking.common.Const;
+import com.hz.booking.common.ResponseCode;
 import com.hz.booking.common.ServerResponse;
 import com.hz.booking.pojo.User;
 import com.hz.booking.service.BookingService;
 import com.hz.booking.service.FileService;
 import com.hz.booking.util.PropertiesUtil;
 import com.hz.booking.vo.Page;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -35,8 +33,8 @@ public class BookingController {
                                   Integer type, Integer cateogryId, BigDecimal money,
                                   String picture, String remark,HttpSession session) throws ParseException {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if(user != null){
-            return ServerResponse.createBySuccess(user);
+        if(user ==null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
 
         ServerResponse response =bookingService.booking( spendTime,  userId,  spendUserId, accountId,
@@ -48,8 +46,8 @@ public class BookingController {
     @RequestMapping("/getCategory")
     public ServerResponse getCategory(Integer userId,HttpSession session){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if(user != null){
-            return ServerResponse.createBySuccess(user);
+        if(user ==null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
 
         return  bookingService.getCategory(userId);
@@ -57,8 +55,8 @@ public class BookingController {
     @RequestMapping("/getCompanion")
     public ServerResponse getCompanion(Integer accountId,HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if(user != null){
-            return ServerResponse.createBySuccess(user);
+        if(user ==null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
 
         return bookingService.getCompanion(accountId);
@@ -68,8 +66,8 @@ public class BookingController {
     @ResponseBody
     public ServerResponse upload(HttpSession session, @RequestParam(value = "file",required = false) MultipartFile file, HttpServletRequest request){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if(user != null){
-            return ServerResponse.createBySuccess(user);
+        if(user ==null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
         String path = request.getSession().getServletContext().getRealPath("upload");
         String targetFileName = fileService.upload(file,path);
@@ -84,8 +82,11 @@ public class BookingController {
 
 
     @RequestMapping("getBill.do")
-    public ServerResponse getBill(Integer accountId, String spendTime, Page page ){
-
+    public ServerResponse getBill(Integer accountId, String spendTime, Page page,HttpSession session){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if(user ==null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
         return bookingService.getBill(accountId,spendTime,page);
 
 

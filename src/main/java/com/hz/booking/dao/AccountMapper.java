@@ -1,6 +1,9 @@
 package com.hz.booking.dao;
 
 import com.hz.booking.pojo.Account;
+import com.hz.booking.vo.UserAccountVo;
+
+import java.util.List;
 
 public interface AccountMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,8 @@ public interface AccountMapper {
     int updateByPrimaryKeySelective(Account record);
 
     int updateByPrimaryKey(Account record);
+
+    Account getAccountByCode(String invitation);
+
+    List<UserAccountVo> getUserAccount(Integer userId);
 }
