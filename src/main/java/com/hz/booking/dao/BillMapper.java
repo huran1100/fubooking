@@ -26,4 +26,6 @@ public interface BillMapper {
     List<BillListVo> getBillDay(@Param("spendTime") String spendTime, @Param("accountId")Integer accountId);
 
     List<BillVo> getBillList(@Param("spendTime") String spendTime, @Param("accountId")Integer accountId);
+
+    BillVo getBillInfo(Integer billId);
 }

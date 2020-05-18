@@ -14,6 +14,7 @@ import com.hz.booking.vo.BillListVo;
 import com.hz.booking.vo.BillVo;
 import com.hz.booking.vo.Page;
 import com.hz.booking.vo.UserVo;
+import org.apache.ibatis.javassist.runtime.Desc;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -75,7 +76,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     public ServerResponse getBill(Integer accountId, String spendTime,Page page ){
-        PageHelper.startPage(page.getCurrPageNo(),page.getPageSize());
+        PageHelper.startPage(page.getCurrPageNo(),page.getPageSize(),"spend_time desc" );
         //根据月份查询日期
         List<BillListVo> billList= billMapper.getBillDay(spendTime,accountId);
 
@@ -98,6 +99,17 @@ public class BookingServiceImpl implements BookingService {
 
 
 
+    }
+
+    public ServerResponse getBillInfo(Integer billId){
+        if(billId ==null){
+            return ServerResponse.createByErrorMessage("缺少id");
+        }
+        BillVo billInfo = billMapper.getBillInfo(billId);
+        if(billInfo !=null){
+            return  ServerResponse.createBySuccess(billInfo);
+        }
+        return ServerResponse.createByErrorMessage("未找到数据");
     }
 
 

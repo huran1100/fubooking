@@ -15,4 +15,6 @@ public interface BookingService {
     ServerResponse getCompanion(Integer accountId);
 
     ServerResponse getBill(Integer accountId, String spendTime, Page page);
+
+    ServerResponse getBillInfo(Integer billId);
 }

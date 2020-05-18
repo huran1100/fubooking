@@ -129,7 +129,14 @@ public class BookingController {
         return ServerResponse.createByErrorMessage("上传失败!");
     }
 
-
+    @RequestMapping("/getBillInfo.do")
+    public ServerResponse getBillInfo(Integer billId,HttpSession session){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if(user ==null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return bookingService.getBillInfo(billId);
+    }
 
 
 
