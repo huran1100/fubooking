@@ -135,6 +135,7 @@ public class BookingController {
         if(user ==null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
+
         return bookingService.getBillInfo(billId);
     }
 
