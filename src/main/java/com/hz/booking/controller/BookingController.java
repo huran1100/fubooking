@@ -8,16 +8,23 @@ import com.hz.booking.service.BookingService;
 import com.hz.booking.service.FileService;
 import com.hz.booking.util.PropertiesUtil;
 import com.hz.booking.vo.Page;
+import org.apache.commons.io.IOUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RequestMapping("booking")
 @RestController
@@ -91,10 +98,36 @@ public class BookingController {
 
 
     }
+    @RequestMapping(value = "/image.do", method = RequestMethod.POST)
+    public ServerResponse uploadImage(HttpServletRequest request, @RequestParam(value = "file",required = false)MultipartFile file) throws IOException {
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
+        String filePath = "/images/" + sdf.format(new Date());
+        String imageFolderPath = request.getServletContext().getRealPath(filePath);
+        File imageFolder = new File(imageFolderPath);
+        if (!imageFolder.exists()) {
+            imageFolder.mkdirs();
+        }
 
-
+        StringBuilder imageUrl= new StringBuilder();
+        imageUrl.append(request.getScheme())
+                .append("://")
+                .append(request.getServerName())
+                .append(":")
+                .append(request.getServerPort())
+                .append(request.getContextPath())
+                .append(filePath);
+        String imageName = UUID.randomUUID() + "_" + file.getOriginalFilename().replaceAll(" ", "");
+        try {
+            IOUtils.write(file.getBytes(), new FileOutputStream(new File(imageFolder, imageName)));
+            imageUrl.append("/").append(imageName);
+            return ServerResponse.createBySuccess("success",imageUrl.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ServerResponse.createByErrorMessage("上传失败!");
+    }
 
 
 

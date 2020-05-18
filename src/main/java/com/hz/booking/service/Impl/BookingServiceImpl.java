@@ -77,24 +77,26 @@ public class BookingServiceImpl implements BookingService {
     public ServerResponse getBill(Integer accountId, String spendTime,Page page ){
         PageHelper.startPage(page.getCurrPageNo(),page.getPageSize());
         //根据月份查询日期
-        List<Bill> dayList= billMapper.getBillDay(spendTime,accountId);
+        List<BillListVo> billList= billMapper.getBillDay(spendTime,accountId);
 
-        List<BillListVo> billList =new ArrayList<BillListVo>();
+        //List<BillListVo> billList =new ArrayList<BillListVo>();
         //根据日期查询记账
-        for (int i = 0; i < dayList.size(); i++) {
-            Date everyDay =  dayList.get(i).getSpendTime();
+        for (int i = 0; i < billList.size(); i++) {
+            Date everyDay =  billList.get(i).getDay();
             String spendDay = DateTimeUtil.dateToStr(everyDay,"yyyy-MM-dd");
             List<BillVo> bills = billMapper.getBillList(spendDay,accountId);
-            BillListVo billListVo = new BillListVo();
+            /*BillListVo billListVo = new BillListVo();
             billListVo.setDay(everyDay);
-            billListVo.setBillList(bills);
-            billList.add(billListVo);
+            billListVo.setBillList(bills);*/
+            billList.get(i).setBillList(bills);
         }
         if(billList.size()>0){
             PageInfo pageInfo= new PageInfo(billList);
             return ServerResponse.createBySuccess("查询成功",pageInfo);
         }
         return  ServerResponse.createByErrorMessage("未找到数据");
+
+
 
     }
 

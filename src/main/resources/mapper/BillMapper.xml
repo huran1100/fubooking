@@ -15,6 +15,10 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="dayListMap" type="com.hz.booking.vo.BillListVo" >
+    <result column="spend_time" property="day" jdbcType="TIMESTAMP" />
+  </resultMap>
+
   <resultMap id="BillListResultMap" type="com.hz.booking.vo.BillVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
@@ -196,7 +200,7 @@
     AND account_id = #{accountId} GROUP BY spend_time
   </select>
 
-  <select id="getBillDay" parameterType="map" resultMap="BaseResultMap">
+  <select id="getBillDay" parameterType="map" resultMap="dayListMap">
     SELECT DISTINCT
       DATE_FORMAT(spend_time, '%Y-%m-%d')  spend_time
   FROM

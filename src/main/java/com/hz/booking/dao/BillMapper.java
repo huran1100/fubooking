@@ -1,6 +1,7 @@
 package com.hz.booking.dao;
 
 import com.hz.booking.pojo.Bill;
+import com.hz.booking.vo.BillListVo;
 import com.hz.booking.vo.BillVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,7 +23,7 @@ public interface BillMapper {
 
     List<Bill> getBill(@Param("accountId")Integer accountId, @Param("spendTime")Data spendTime);
 
-    List<Bill> getBillDay(@Param("spendTime") String spendTime, @Param("accountId")Integer accountId);
+    List<BillListVo> getBillDay(@Param("spendTime") String spendTime, @Param("accountId")Integer accountId);
 
     List<BillVo> getBillList(@Param("spendTime") String spendTime, @Param("accountId")Integer accountId);
 }
