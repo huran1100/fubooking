@@ -36,7 +36,7 @@ public class BookingController {
     private FileService fileService;
 
     @RequestMapping("/booking")
-    public ServerResponse booking(String spendTime, Integer userId, Integer spendUserId,Integer accountId,
+    public ServerResponse booking(String spendTime, Integer spendUserId,Integer accountId,
                                   Integer type, Integer cateogryId, BigDecimal money,
                                   String picture, String remark,HttpSession session) throws ParseException {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -44,7 +44,7 @@ public class BookingController {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
 
-        ServerResponse response =bookingService.booking( spendTime,  userId,  spendUserId, accountId,
+        ServerResponse response =bookingService.booking( spendTime,  user.getId(),  spendUserId, accountId,
                                      type,  cateogryId,  money, picture, remark);
         return response;
 

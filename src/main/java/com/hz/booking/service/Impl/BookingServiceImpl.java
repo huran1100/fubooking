@@ -50,9 +50,9 @@ public class BookingServiceImpl implements BookingService {
         bill.setSpendUserId(spendUserId);
         bill.setPicture(picture);
         bill.setAccountId(accountId);
-        //Date spTime = DateTimeUtil.strToDate(spendTime,"yyyy-MM-dd");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
-        Date spTime = formatter.parse(spendTime);
+        Date spTime = DateTimeUtil.strToDate(spendTime,"yyyy-MM-dd");
+       /* SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        Date spTime = formatter.parse(spendTime);*/
 
         bill.setSpendTime(spTime);
         int count = billMapper.insertSelective(bill);

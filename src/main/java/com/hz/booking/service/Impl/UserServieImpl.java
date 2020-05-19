@@ -34,14 +34,13 @@ public class UserServieImpl implements UserService {
     }
 
     public ServerResponse register(String nickname, String username,String password,String email){
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(nickname)
-                || StringUtils.isEmpty(email)) {
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(nickname)) {
             return ServerResponse.createByErrorMessage("请输入完整信息");
         }
         //验证用户名称
         int count = userMapper.checkUsername(username);
         if (count > 0) {
-            return ServerResponse.createByErrorMessage("用户名已存在");
+            return ServerResponse.createByErrorMessage("该账号已存在");
         }
         User user = new User();
         user.setUsername(username);
