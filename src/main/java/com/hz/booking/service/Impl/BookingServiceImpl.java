@@ -16,10 +16,12 @@ import com.hz.booking.vo.Page;
 import com.hz.booking.vo.UserVo;
 import org.apache.ibatis.javassist.runtime.Desc;
 import org.springframework.stereotype.Service;
+import org.springframework.util.unit.DataUnit;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +50,10 @@ public class BookingServiceImpl implements BookingService {
         bill.setSpendUserId(spendUserId);
         bill.setPicture(picture);
         bill.setAccountId(accountId);
-        Date spTime = DateTimeUtil.strToDate(spendTime,"yyyy-MM-dd");
+        //Date spTime = DateTimeUtil.strToDate(spendTime,"yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        Date spTime = formatter.parse(spendTime);
+
         bill.setSpendTime(spTime);
         int count = billMapper.insertSelective(bill);
         if (count > 0) {
@@ -66,6 +71,26 @@ public class BookingServiceImpl implements BookingService {
         return ServerResponse.createByErrorMessage("");
 
     }
+    public ServerResponse addCategory(Integer userId,String name){
+        Category category = new Category();
+        category.setUserId(userId);
+        category.setName(name);
+        category.setIcon("add-o");
+        int count = categoryMapper.insertSelective(category);
+        if(count>0){
+            return ServerResponse.createBySuccess("添加成功");
+        }
+        return ServerResponse.createByErrorMessage("添加失败");
+
+    }
+    public ServerResponse delCategory(Integer categoryId){
+        int count = categoryMapper.deleteByPrimaryKey(categoryId);
+        if(count>0){
+            return ServerResponse.createBySuccess("删除成功");
+        }
+        return ServerResponse.createByErrorMessage("删除失败");
+
+    }
 
     public ServerResponse getCompanion(Integer accountId){
         List<UserVo> userList = userMapper.getCompanion(accountId);
@@ -76,6 +101,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     public ServerResponse getBill(Integer accountId, String spendTime,Page page ){
+        System.out.println(spendTime+"==============================");
         PageHelper.startPage(page.getCurrPageNo(),page.getPageSize(),"spend_time desc" );
         //根据月份查询日期
         List<BillListVo> billList= billMapper.getBillDay(spendTime,accountId);

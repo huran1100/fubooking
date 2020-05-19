@@ -12,6 +12,10 @@ public interface BookingService {
 
     ServerResponse getCategory(Integer userId);
 
+    ServerResponse addCategory(Integer userId,String name);
+
+    ServerResponse delCategory(Integer categoryId);
+
     ServerResponse getCompanion(Integer accountId);
 
     ServerResponse getBill(Integer accountId, String spendTime, Page page);

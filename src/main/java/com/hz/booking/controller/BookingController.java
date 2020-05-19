@@ -51,14 +51,32 @@ public class BookingController {
     }
 
     @RequestMapping("/getCategory")
-    public ServerResponse getCategory(Integer userId,HttpSession session){
+    public ServerResponse getCategory(HttpSession session){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if(user ==null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
 
-        return  bookingService.getCategory(userId);
+        return  bookingService.getCategory(user.getId());
     }
+    @RequestMapping("/addCategory")
+    public ServerResponse addCategory(String name,HttpSession session){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if(user ==null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return  bookingService.addCategory(user.getId(),name);
+    }
+
+    @RequestMapping("/delCategory")
+    public ServerResponse delCategory(Integer categoryId,HttpSession session){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if(user ==null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return  bookingService.delCategory(categoryId);
+    }
+
     @RequestMapping("/getCompanion")
     public ServerResponse getCompanion(Integer accountId,HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
