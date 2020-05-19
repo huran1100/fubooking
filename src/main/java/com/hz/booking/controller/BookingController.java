@@ -123,6 +123,7 @@ public class BookingController {
 
         String filePath = "/images/" + sdf.format(new Date());
         String imageFolderPath = request.getServletContext().getRealPath(filePath);
+        System.out.println(imageFolderPath+"文件路径==========++");
         File imageFolder = new File(imageFolderPath);
         if (!imageFolder.exists()) {
             imageFolder.mkdirs();
