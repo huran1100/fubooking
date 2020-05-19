@@ -130,11 +130,20 @@ public class BookingController {
         }
 
         StringBuilder imageUrl= new StringBuilder();
-        imageUrl.append(request.getScheme())
+        /*imageUrl.append(request.getScheme())
                 .append("://")
                 .append(request.getServerName())
                 .append(":")
                 .append(request.getServerPort())
+                .append(request.getContextPath())
+                .append(filePath);*/
+
+        //服务器可访问ip
+        imageUrl.append(request.getScheme())
+                .append("://")
+                .append("47.105.65.207/")
+                .append(":")
+                .append("80")
                 .append(request.getContextPath())
                 .append(filePath);
         String imageName = UUID.randomUUID() + "_" + file.getOriginalFilename().replaceAll(" ", "");
