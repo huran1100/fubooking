@@ -141,7 +141,7 @@ public class BookingController {
         //服务器可访问ip
         imageUrl.append(request.getScheme())
                 .append("://")
-                .append("47.105.65.207/")
+                .append("47.105.65.207")
                 .append(":")
                 .append("80")
                 .append(request.getContextPath())
